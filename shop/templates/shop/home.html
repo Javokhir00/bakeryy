@@ -1,0 +1,844 @@
+{% extends 'shop/base/base.html' %}
+{% load static %}
+
+
+{% block home %}
+
+
+<section
+        style="background-image: url('https://carami-store-demo.myshopify.com/cdn/shop/files/slideshow-v1.jpg?v=1614293105');background-repeat: no-repeat;background-size: cover; background-position: center; min-height: 80vh; position: relative;">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 pt-5 mt-5 hk-hero-wrap">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <span class="hk-main-title">HoneyKitchen</span>
+                    <span class="hk-subtitle">by Maftuna</span>
+                    </h1>
+                    <p class="hero-tagline">Golden bakes — handcrafted & delivered fresh.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Stats Section -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="row hero-stats">
+                    <div class="col-md-6 text-center mb-3">
+                        <div class="stat-item">
+                            <h3 class="stat-number">50+</h3>
+                            <p class="stat-label">Product Varieties</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center mb-3">
+                        <div class="stat-item">
+                            <h3 class="stat-number">1000+</h3>
+                            <p class="stat-label">Happy Customers</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--        <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-3 g-0 justify-content-center">-->
+        <!--          <div class="col">-->
+        <!--            <div class="card border-0 bg-primary rounded-0 p-4 text-light">-->
+        <!--              <div class="row">-->
+        <!--                <div class="col-md-3 text-center">-->
+        <!--                  <svg width="60" height="60"><use xlink:href="#fresh"></use></svg>-->
+        <!--                </div>-->
+        <!--                <div class="col-md-9">-->
+        <!--                  <div class="card-body p-0">-->
+        <!--                    <h5 class="text-light">Fresh from farm</h5>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>-->
+        <!--                  </div>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="col">-->
+        <!--            <div class="card border-0 bg-secondary rounded-0 p-4 text-light">-->
+        <!--              <div class="row">-->
+        <!--                <div class="col-md-3 text-center">-->
+        <!--                  <svg width="60" height="60"><use xlink:href="#organic"></use></svg>-->
+        <!--                </div>-->
+        <!--                <div class="col-md-9">-->
+        <!--                  <div class="card-body p-0">-->
+        <!--                    <h5 class="text-light">100% Organic</h5>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>-->
+        <!--                  </div>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--          <div class="col">-->
+        <!--            <div class="card border-0 bg-danger rounded-0 p-4 text-light">-->
+        <!--              <div class="row">-->
+        <!--                <div class="col-md-3 text-center">-->
+        <!--                  <svg width="60" height="60"><use xlink:href="#delivery"></use></svg>-->
+        <!--                </div>-->
+        <!--                <div class="col-md-9">-->
+        <!--                  <div class="card-body p-0">-->
+        <!--                    <h5 class="text-light">Free delivery</h5>-->
+        <!--                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>-->
+        <!--                  </div>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <!--      </div>-->
+</section>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap');
+  
+  .hk-main-title {
+    display: inline-block;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 8vw, 8rem);
+    line-height: 4;
+    background: linear-gradient(90deg, #ffecb3, #ffcc66, #ffb84d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* color: transparent; */
+    text-shadow: 0 10px 50px rgba(0,0,0,.25);
+    line-height: 1.2;
+    overflow: visible;
+    padding-bottom: 5px;
+    vertical-align: baseline;
+  }
+  .hk-subtitle {
+    display: block;
+      margin-top: 25rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    color: #ffffff;
+    letter-spacing: .06em;
+  }
+  .hk-tagline {
+    color: #f3e6c9;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    margin-top: .75rem;
+  }
+  .hk-hero-wrap { margin-left: 0; margin-right: auto; text-align: left}
+</style>
+
+<section class="py-5 overflow-hidden">
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="section-header d-flex flex-wrap justify-content-between mb-5">
+                    <h2 class="section-title">Categories</h2>
+
+                    
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="categories-section">
+                    <h3 class="text-center mb-4 text-white">Our Categories ({{ categories|length }} total)</h3>
+                    <div class="category-swiper-container">
+                        <div class="swiper category-swiper">
+                            <div class="swiper-wrapper">
+                    {% for category in categories %}
+                                <div class="swiper-slide">
+                                    <a href="{% url 'shop:products_by_category' category.slug %}" class="category-card">
+                                        <div class="category-image">
+                        <img src="{{category.image.url}}" alt="{{category.title}}">
+                      </div>
+                                        <div class="category-content">
+                                            <h4 class="category-title">{{category.title}}</h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                {% empty %}
+                                <div class="swiper-slide">
+                                    <div class="category-card">
+                                        <div class="category-content">
+                                            <h4 class="category-title">No categories available</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                    {% endfor %}
+                            </div>
+                            <!-- Navigation buttons -->
+                            
+                        </div>
+                        <div class="swiper-button-next category-next"></div>
+                            <div class="swiper-button-prev category-prev"></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container-lg">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="section-header d-flex flex-wrap justify-content-between my-4">
+
+                    <h2 class="section-title">Our Products</h2>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
+
+                    {% for product in products %}
+                    <div class="col">
+                        <div class="product-item es-product-card">
+                            <figure class="es-product-figure">
+                                <a href="{% url 'shop:product_detail' product.id %}" title="{{product.name}}">
+                                    <img src="{{ product.image.url }}" alt="{{product.name}}" class="es-product-thumb">
+                                </a>
+                            </figure>
+                            <div class="d-flex flex-column text-center p-2">
+                                <h3 class="fs-6 fw-normal">{{product.name}}</h3>
+                                <div>
+                      <span class="rating">
+                        {% for i in "12345" %}
+                          {% if forloop.counter <= product.avg_rating %}
+                        <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
+                          {% elif forloop.counter|add:"-1" < product.avg_rating %}
+                        <svg width="18" height="18" class="text-warning"><use xlink:href="#star-half"></use></svg>
+                          {% else %}
+                            <svg width="18" height="18" class="text-muted"><use xlink:href="#star-full"></use></svg>
+                          {% endif %}
+                        {% endfor %}
+                      </span>
+                                    <span>({{ product.comments.count }})</span>
+                                </div>
+                                <div class="d-flex justify-content-center align-items-center gap-2">
+                                    <span class="text-dark fw-semibold">{{product.price}}$</span>
+                                </div>
+                                <div class="button-area p-3 pt-0">
+                                    <div class="row g-1 mt-2">
+                                    <div class="col-4"><input type="number" name="quantity" class="form-control border-dark-subtle input-number quantity" value="1" min="1" style="height: 44px; font-size: 1rem; width: 100%;"></div>
+                                    <div class="col-5"><a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart w-100" data-product-id="{{product.id}}"><svg width="18" height="18"><use xlink:href="#cart"></use></svg> Add to Cart</a></div>
+                                    <div class="col-3"><a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6 like-btn w-100" data-product-id="{{product.id}}"><svg width="18" height="18" fill="currentColor"><use xlink:href="#heart"></use></svg></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+                <!-- / product-grid -->
+
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if page_obj.has_other_pages %}
+<nav aria-label="Products pagination" class="mt-4">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+    {% endif %}
+  </ul>
+  </nav>
+{% endif %}
+
+
+<style>
+  .like-btn.liked { color: red; }
+  .es-category-card { text-decoration: none; }
+  .es-category-thumb { width: 140px; height: 140px; margin: 0 auto; border-radius: 50%; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .es-category-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  
+  /* Category Swiper Styles */
+  .categories-section {
+    padding: 40px 0;
+  }
+  
+  .category-swiper-container {
+    position: relative;
+    padding: 0 70px;
+  }
+  
+  .category-swiper {
+    overflow: hidden;
+    padding: 20px 0;
+  }
+  
+  .category-swiper .swiper-slide {
+    width: 180px;
+    height: auto;
+    flex-shrink: 0;
+  }
+  
+  .category-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 200px;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  .category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .category-image {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+  
+  .category-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .category-card:hover .category-image img {
+    transform: scale(1.1);
+  }
+  
+  .category-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .category-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+    line-height: 1.3;
+  }
+  
+  .category-card:hover .category-title {
+    color: #b8860b;
+  }
+  
+  /* Swiper Navigation Buttons */
+  .category-next,
+  .category-prev {
+    color: rgb(0, 22, 133) !important;
+    background: rgba(0, 255, 68, 0.2);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    margin-right: -50px;
+    margin-left: -50px;
+    backdrop-filter: blur(10px);
+    border: 3px solid rgba(0, 4, 250, 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .category-next:hover,
+  .category-prev:hover {
+    background: rgba(0, 255, 68, 0.3);
+    transform: scale(1.1);
+  }
+  
+  .category-prev {
+    left: 10px;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .category-next {
+    right: 10px;
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .category-next:after,
+  .category-prev:after {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .category-swiper-container {
+      padding: 0 50px;
+    }
+    
+    .category-prev {
+      left: 5px;
+    }
+    
+    .category-next {
+      right: 5px;
+    }
+    
+    .category-card {
+      padding: 15px;
+      width: 160px;
+      height: 180px;
+    }
+    
+    .category-image {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .category-title {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .category-card {
+      width: 140px;
+      height: 160px;
+      padding: 12px;
+    }
+    
+    .category-image {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .category-title {
+      font-size: 12px;
+    }
+  }
+  .es-product-card { border: 1px solid #eee; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,.06); transition: transform .15s ease, box-shadow .15s ease; background: #fff; }
+  .es-product-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(0,0,0,.10); }
+  .es-product-figure { margin: 0; background: #fafafa; display: flex; align-items: center; justify-content: center; }
+  .es-product-thumb { width: 100%; height: 260px; object-fit: cover; display: block; }
+  
+  /* Hero Section Styling */
+  .hero-content {
+    text-align: left;
+    padding: 40px 0;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 30px;
+  }
+  
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    font-weight: 700;
+    line-height: 1.0;
+    margin: 0;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+    letter-spacing: -1px;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 80px;
+  }
+  
+  .hk-main-title {
+    display: block;
+    background: linear-gradient(135deg, #ffd700, #ffed4e, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Playfair Display', serif;
+    font-size: 7rem;
+    font-weight: 700;
+    text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+    margin-bottom: 15px;
+    letter-spacing: -2px;
+    margin-left: 0;
+    margin-right: 100px;
+    padding-right: 60px;
+  }
+  
+  .hk-subtitle {
+    display: block;
+    color: #fff;
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem;
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 50px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    letter-spacing: 2px;
+    margin-left: 0;
+    margin-right: 30px;
+  }
+  
+  .hero-tagline {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.8rem;
+    color: #fff;
+    margin-top: 35px;
+    font-weight: 300;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    letter-spacing: 1px;
+    line-height: 1.5;
+    max-width: 85%;
+    margin-left: 0;
+    margin-right: 20px;
+  }
+  
+  /* Hero Stats Section */
+  .hero-stats {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: 10;
+  }
+  
+  .stat-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .stat-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+  }
+  
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ffd700;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .stat-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 10px 0 0 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+  }
+  
+  /* Responsive Hero */
+  @media (max-width: 768px) {
+    .hero-content {
+      max-width: 100%;
+      padding: 20px 0;
+    }
+    
+    .hero-title {
+      font-size: 4rem;
+      width: 100%;
+    }
+    
+    .hk-main-title {
+      font-size: 4.5rem;
+    }
+    
+    .hk-subtitle {
+      font-size: 2.2rem;
+    }
+    
+    .hero-tagline {
+      font-size: 1.4rem;
+      max-width: 90%;
+    }
+    
+    .hero-stats {
+      bottom: 20px;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-content {
+      max-width: 100%;
+      padding: 15px 0;
+    }
+    
+    .hero-title {
+      font-size: 3rem;
+      width: 100%;
+    }
+    
+    .hk-main-title {
+      font-size: 3.5rem;
+    }
+    
+    .hk-subtitle {
+      font-size: 1.8rem;
+    }
+    
+    .hero-tagline {
+      font-size: 1.2rem;
+      max-width: 100%;
+    }
+    
+    .hero-stats {
+      bottom: 15px;
+    }
+    
+    .stat-item {
+      padding: 15px;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<script>
+  (function(){
+    // Initialize like states from localStorage
+    // Initialize like states from server
+    const isLoggedIn = {{ user.is_authenticated|yesno:"true,false" }};
+    if (isLoggedIn) {
+      // Fetch user's liked products from server
+      fetch('{% url "shop:get_user_likes" %}', {
+        method: 'GET',
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const likedProducts = data.liked_products || [];
+        document.querySelectorAll('.like-btn').forEach(btn => {
+          const productId = btn.getAttribute('data-product-id');
+          if (likedProducts.includes(parseInt(productId))) {
+            btn.classList.add('liked');
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching likes:', error);
+      });
+    }
+    
+    // Handle like button clicks
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (!isLoggedIn) {
+          alert('Please log in to like products.');
+          window.location.href = '{% url "users:login" %}';
+          return;
+        }
+        
+        const productId = this.getAttribute('data-product-id');
+        
+        // Toggle like on server
+        fetch(`{% url "shop:toggle_like" 0 %}`.replace('0', productId), {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (data.is_liked) {
+              this.classList.add('liked');
+            } else {
+              this.classList.remove('liked');
+            }
+            console.log(data.message);
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error toggling like:', error);
+          alert('Error liking product. Please try again.');
+        });
+      });
+    });
+
+    // Initialize Category Swiper
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, initializing swiper...');
+      
+      // Check if Swiper is available
+      if (typeof Swiper === 'undefined') {
+        console.error('Swiper is not loaded!');
+        return;
+      }
+      
+      // Check if the swiper element exists
+      const swiperElement = document.querySelector('.category-swiper');
+      if (!swiperElement) {
+        console.error('Swiper element not found!');
+        return;
+      }
+      
+      console.log('Swiper element found:', swiperElement);
+      console.log('Number of slides:', swiperElement.querySelectorAll('.swiper-slide').length);
+      
+      // Wait a bit for the DOM to be fully ready
+      setTimeout(function() {
+        try {
+          const categorySwiper = new Swiper('.category-swiper', {
+            slidesPerView: 'auto',
+            spaceBetween: 20,
+            loop: true,
+            grabCursor: true,
+            autoplay: {
+              delay: 4000,
+              disableOnInteraction: false,
+            },
+            navigation: {
+              nextEl: '.category-next',
+              prevEl: '.category-prev',
+            },
+            breakpoints: {
+              320: {
+                slidesPerView: 1,
+                spaceBetween: 15,
+              },
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+              },
+            },
+          });
+          
+          console.log('Category Swiper initialized successfully:', categorySwiper);
+        } catch (error) {
+          console.error('Error initializing Swiper:', error);
+        }
+      }, 500);
+    });
+
+    // Add to cart handler
+    document.querySelectorAll('.btn-cart').forEach(btn=>{
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        
+        // Check if user is logged in
+        const isLoggedIn = {{ user.is_authenticated|yesno:"true,false" }};
+        if (!isLoggedIn) {
+          alert('Please log in to add items to your cart.');
+          window.location.href = '{% url "users:login" %}';
+          return;
+        }
+        
+        const pid = String(this.getAttribute('data-product-id'));
+        const qtyInput = this.closest('.row').querySelector('input.quantity');
+        const qty = Math.max(1, parseInt(qtyInput && qtyInput.value || '1', 10));
+        
+        // Add to server-side cart
+        const formData = new FormData();
+        formData.append('quantity', qty);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+        
+        fetch(`/honeykitchen/add-to-cart/${pid}/`, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            // Visual feedback
+        this.classList.add('btn-success');
+        this.classList.remove('btn-primary');
+        this.innerHTML = '<svg width="18" height="18"><use xlink:href="#check"></use></svg> Added';
+        setTimeout(()=>{
+          this.classList.remove('btn-success');
+          this.classList.add('btn-primary');
+          this.innerHTML = '<svg width="18" height="18"><use xlink:href="#cart"></use></svg> Add to Cart';
+        }, 1200);
+            
+            // Refresh cart display
+            if (typeof renderCart === 'function') {
+              renderCart();
+            }
+          } else {
+            alert('Error adding item to cart');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error adding item to cart');
+        });
+      });
+    });
+  })();
+</script>
+
+{% endblock %}

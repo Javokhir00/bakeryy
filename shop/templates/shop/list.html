@@ -1,0 +1,263 @@
+{% extends 'shop/base/base.html' %}
+
+{% load static %}
+
+{% block list %}
+
+
+<section class="py-5 overflow-hidden">
+      <div class="container-lg">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-header d-flex flex-wrap justify-content-between mb-5">
+
+              <h2 class="section-title">Category: {{category.title}}</h2>
+
+              
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="category-carousel swiper swiper-initialized swiper-horizontal">
+              <div class="swiper-wrapper" id="swiper-wrapper-79c2474aba0c316c" aria-live="polite">
+                <a href="{% url 'shop:products_by_category' category.slug %}" class="nav-link swiper-slide text-center swiper-slide active es-category-card" role="group" aria-label="Selected Category" style="width: 300px; margin-right: 30px;">
+                  <div class="es-category-thumb">
+                    <img src="{{ category.image.url }}" alt="{{category.title}}">
+                  </div>
+                  <h4 class="fs-6 mt-3 fw-normal category-title">{{category.title}}</h4>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-5">
+      <div class="container-lg">
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="section-header d-flex flex-wrap justify-content-between my-4">
+
+              <h2 class="section-title">Products</h2>
+
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
+            {% for product in products %}
+              <div class="col">
+                <div class="product-item es-product-card">
+                  <figure class="es-product-figure">
+                    <a href="{% url 'shop:product_detail' product.id %}" title="{{product.name}}">
+                      <img src="{{ product.image.url }}" alt="{{product.name}}" class="es-product-thumb">
+                    </a>
+                  </figure>
+                  <div class="d-flex flex-column text-center p-2">
+                    <h3 class="fs-6 fw-normal">{{product.name}}</h3>
+                    <div>
+                      <span class="rating">
+                        {% for i in "12345" %}
+                          {% if forloop.counter <= product.avg_rating %}
+                            <svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>
+                          {% elif forloop.counter|add:"-1" < product.avg_rating %}
+                            <svg width="18" height="18" class="text-warning"><use xlink:href="#star-half"></use></svg>
+                          {% else %}
+                            <svg width="18" height="18" class="text-muted"><use xlink:href="#star-full"></use></svg>
+                          {% endif %}
+                        {% endfor %}
+                      </span>
+                      <span>({{ product.comments.count }})</span>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center gap-2">
+                      <span class="text-dark fw-semibold">{{ product.price }}$</span>
+                    </div>
+                    <div class="button-area p-3 pt-0">
+                      <div class="row g-1 mt-2">
+                        <div class="col-4"><input type="number" name="quantity" class="form-control border-dark-subtle input-number quantity" value="1" min="1" style="height: 44px; font-size: 1rem; width: 100%;"></div>
+                        <div class="col-5"><a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart w-100" data-product-id="{{product.id}}"><svg width="18" height="18"><use xlink:href="#cart"></use></svg> Add to Cart</a></div>
+                        <div class="col-3"><a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6 like-btn w-100" data-product-id="{{product.id}}"><svg width="18" height="18" fill="currentColor"><use xlink:href="#heart"></use></svg></a></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+
+
+            </div>
+            <!-- / product-grid -->
+
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+<style>
+  .like-btn.liked { color: red; }
+  .es-category-card { text-decoration: none; }
+  .es-category-thumb { width: 140px; height: 140px; margin: 0 auto; border-radius: 50%; overflow: hidden; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .es-category-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .es-product-card { border: 1px solid #eee; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,.06); transition: transform .15s ease, box-shadow .15s ease; background: #fff; }
+  .es-product-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(0,0,0,.10); }
+  .es-product-figure { margin: 0; background: #fafafa; display: flex; align-items: center; justify-content: center; }
+  .es-product-thumb { width: 100%; height: 260px; object-fit: cover; display: block; }
+</style>
+
+<script>
+  (function(){
+    // Initialize like states from server
+    const isLoggedIn = {{ user.is_authenticated|yesno:"true,false" }};
+    if (isLoggedIn) {
+      // Fetch user's liked products from server
+      fetch('{% url "shop:get_user_likes" %}', {
+        method: 'GET',
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const likedProducts = data.liked_products || [];
+        document.querySelectorAll('.like-btn').forEach(btn => {
+          const productId = btn.getAttribute('data-product-id');
+          if (likedProducts.includes(parseInt(productId))) {
+            btn.classList.add('liked');
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching likes:', error);
+      });
+    }
+    
+    // Handle like button clicks
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (!isLoggedIn) {
+          alert('Please log in to like products.');
+          window.location.href = '{% url "users:login" %}';
+          return;
+        }
+        
+        const productId = this.getAttribute('data-product-id');
+        
+        // Toggle like on server
+        fetch(`{% url "shop:toggle_like" 0 %}`.replace('0', productId), {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (data.is_liked) {
+              this.classList.add('liked');
+            } else {
+              this.classList.remove('liked');
+            }
+            console.log(data.message);
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error toggling like:', error);
+          alert('Error liking product. Please try again.');
+        });
+      });
+    });
+
+        // Add to cart buttons with localStorage
+        document.querySelectorAll('.btn-cart').forEach(btn=>{
+          btn.addEventListener('click', function(e){
+            e.preventDefault();
+            
+            // Check if user is logged in
+            const isLoggedIn = {{ user.is_authenticated|yesno:"true,false" }};
+            if (!isLoggedIn) {
+              alert('Please log in to add items to your cart.');
+              window.location.href = '{% url "users:login" %}';
+              return;
+            }
+            
+            const pid = String(this.getAttribute('data-product-id'));
+            const qtyInput = this.closest('.row').querySelector('input.quantity');
+            const qty = Math.max(1, parseInt(qtyInput && qtyInput.value || '1', 10));
+            const cart = JSON.parse(localStorage.getItem('cart')||'{}');
+            cart[pid] = (cart[pid]||0) + qty;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Store product info for cart display
+        const productCard = this.closest('.es-product-card');
+        const productName = productCard.querySelector('h3').textContent.trim();
+        const productPrice = productCard.querySelector('.fw-semibold').textContent.replace('$', '');
+        const productImage = productCard.querySelector('img').src;
+        
+        const productInfo = {
+          name: productName,
+          price: productPrice,
+          image: productImage
+        };
+        
+        // Store product info in localStorage
+        const productCache = JSON.parse(localStorage.getItem('productCache')||'{}');
+        productCache[pid] = productInfo;
+        localStorage.setItem('productCache', JSON.stringify(productCache));
+        
+        this.classList.add('btn-success');
+        this.classList.remove('btn-primary');
+        this.innerHTML = '<svg width="18" height="18"><use xlink:href="#check"></use></svg> Added';
+        setTimeout(()=>{
+          this.classList.remove('btn-success');
+          this.classList.add('btn-primary');
+          this.innerHTML = '<svg width="18" height="18"><use xlink:href="#cart"></use></svg> Add to Cart';
+        }, 1200);
+      });
+    });
+  })();
+</script>
+
+{% if page_obj.has_other_pages %}
+<nav aria-label="Products pagination" class="mt-4">
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

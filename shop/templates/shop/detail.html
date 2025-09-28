@@ -1,0 +1,715 @@
+{% extends 'shop/base/base.html' %}
+
+{% load static %}
+
+{% block detail %}
+
+        <div class="container">
+</ul>
+    <div class="es-back-block">
+      <a href="{% url 'shop:index' %}" class="btn-back">
+        <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M15 19l-7-7 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Back</span>
+      </a>
+    </div>
+
+    <div class="es-product-detail">
+          <div class="container py-4">
+                <div class="row">
+                  <!-- Left: Gallery (thumbnails + main image) -->
+                  <div class="col-md-7">
+                    <div class="row g-0">
+                      <!-- Thumbnails -->
+                      <div class="col-2 p-0 d-flex flex-column align-items-center">
+                        <div class="thumbs-scroll" id="thumbsScroll">
+                          {% for image in product.images.all %}
+                            <div class="thumbnail-wrapper mb-2">
+                              <img src="{{ image.image.url }}"
+                                   class="img-thumbnail rounded thumb-img {% if forloop.first %}active{% endif %}"
+                                   onclick="showImage('{{ image.image.url }}', this)"
+                                   alt="{{ product.name }}"
+                                   style="cursor: pointer; transition: transform 0.3s; width: 110px; height: 110px; object-fit: cover;">
+                            </div>
+                          {% endfor %}
+                        </div>
+                        <button class="btn btn-light btn-sm w-100 mt-1" onclick="scrollThumbs(1)">Show more ▼</button>
+                      </div>
+                      <!-- Main Image -->
+                      <div class="col-10 p-0 d-flex justify-content-center align-items-center">
+                        <div class="main-image-wrapper" style="width: 100%; height: 700px;">
+                          <img id="mainImage" src="{{ product.image.url }}"
+                               class="img-fluid rounded-4 shadow-lg"
+                               alt="{{ product.name }}"
+                               style="width: 100%; height: 100%; object-fit: contain; border: 2px solid #ddd; padding: 10px; background: #f9f9f9;">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Right: Product Info -->
+                  <div class="col-md-5">
+                    <div class="es-pd-info p-3" data-id="{{ product.id }}">
+                      <!-- Title -->
+                      <h1 class="es-pd-title fw-bold mb-3">
+                        {{ product.name }}
+                      </h1>
+
+                      <!-- Meta chips -->
+                      <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        {% if product.category %}
+                          <span class="badge es-chip">{{ product.category.title }}</span>
+                        {% endif %}
+                        <span class="badge es-chip-soft">★ {{ product.avg_rating|floatformat:1 }}/5</span>
+                      </div>
+
+                      <!-- Product Card -->
+                      <div class="es-pd-card p-4 rounded-4">
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                          <span class="es-eyebrow">Description</span>
+                          <span class="es-divider"></span>
+                        </div>
+                        <p class="text-muted fs-5 mb-4">
+                          {{ product.description }}
+                        </p>
+
+                        <!-- Price -->
+                        <div class="d-flex justify-content-between align-items-center">
+                          <span class="fw-semibold text-secondary">Price</span>
+                          <span class="es-price-badge">${{ product.price }}</span>
+                        </div>
+
+                        <!-- Quantity and CTA -->
+                        <div class="mt-4">
+                          <div class="d-flex align-items-center gap-3 mb-3">
+                            <label class="fw-semibold text-secondary">Quantity:</label>
+                            <div class="d-flex align-items-center">
+                              <button class="btn btn-outline-secondary btn-sm quantity-btn" onclick="decreaseQuantity()">-</button>
+                              <input type="number" id="quantity" name="quantity" class="form-control text-center mx-2" value="1" min="1" max="99" style="width: 80px;">
+                              <button class="btn btn-outline-secondary btn-sm quantity-btn" onclick="increaseQuantity()">+</button>
+                            </div>
+                          </div>
+                          <div class="d-flex gap-2">
+                            <button class="btn btn-warning btn-lg rounded-pill shadow-sm px-4 flex-grow-1 btn-cart" data-product-id="{{product.id}}">
+                              🛒 Add to Cart
+                            </button>
+                            <button class="btn btn-outline-dark rounded-pill px-4 like-btn" data-product-id="{{product.id}}">♡</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="mb-0">Customer Reviews</h4>
+              <div class="d-flex align-items-center mt-2">
+                <div class="rating me-3">
+                  {% for i in "12345" %}
+                    {% if forloop.counter <= product.avg_rating %}
+                      <svg width="20" height="20" class="text-warning"><use xlink:href="#star-full"></use></svg>
+                    {% else %}
+                      <svg width="20" height="20" class="text-muted"><use xlink:href="#star-full"></use></svg>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+                <span class="text-muted">{{ product.avg_rating|floatformat:1 }}/5 ({{ product.comments.count }} reviews)</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <!-- Add Comment Form -->
+              <div class="mb-4">
+                <h5>Write a Review</h5>
+                {% if user.is_authenticated %}
+                  <form method="post" action="{% url 'shop:comment_add' product.id %}">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label for="email" class="form-label">Your Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="rating" class="form-label">Rating</label>
+                      <select class="form-select" id="rating" name="rating" required>
+                        <option value="">Select Rating</option>
+                        <option value="1">★☆☆☆☆ (1 star)</option>
+                        <option value="2">★★☆☆☆ (2 stars)</option>
+                        <option value="3">★★★☆☆ (3 stars)</option>
+                        <option value="4">★★★★☆ (4 stars)</option>
+                        <option value="5">★★★★★ (5 stars)</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="content" class="form-label">Your Review</label>
+                      <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                  </form>
+                {% else %}
+                  <div class="alert alert-info">
+                    <h6 class="alert-heading">Login Required</h6>
+                    <p class="mb-3">Please log in to write a review for this product.</p>
+                    <a href="{% url 'users:login' %}" class="btn btn-primary">Log In to Write Review</a>
+                  </div>
+                {% endif %}
+              </div>
+
+              <!-- Comments List -->
+              <div class="comments-section">
+                <h5>Customer Reviews</h5>
+                {% if product.comments.all %}
+                  <!-- Scrolling Comments Container -->
+                  <div class="comments-scroll-container" id="commentsScrollContainer">
+                    <div class="comments-scroll-wrapper">
+                      {% for comment in product.comments.all %}
+                        <div class="comment-thumbnail">
+                          <div class="comment-header d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex align-items-center">
+                              <div class="comment-avatar me-3">
+                                <div class="avatar-circle">
+                                  {{ comment.name|first|upper }}
+                                </div>
+                              </div>
+                              <div>
+                                <h6 class="mb-1">{{ comment.name }}</h6>
+                                <div class="rating">
+                                  {% for i in "12345" %}
+                                    {% if forloop.counter <= comment.rating %}
+                                      <svg width="14" height="14" class="text-warning"><use xlink:href="#star-full"></use></svg>
+                                    {% else %}
+                                      <svg width="14" height="14" class="text-muted"><use xlink:href="#star-full"></use></svg>
+                                    {% endif %}
+                                  {% endfor %}
+                                </div>
+                              </div>
+                            </div>
+                            <small class="text-muted">{{ comment.created_at|date:"M d, Y" }}</small>
+                          </div>
+                          <div class="comment-content">
+                            <p class="mb-0">{{ comment.content|truncatewords:20 }}</p>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  
+                  <!-- Scroll Controls -->
+                  <div class="comments-controls mt-3">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="scrollComments('up')" id="scrollUpBtn">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+                      </svg>
+                      Scroll Up
+                    </button>
+                    <span class="mx-2 text-muted small" id="commentsCounter">Showing {{ product.comments.count }} reviews</span>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="scrollComments('down')" id="scrollDownBtn">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+                      </svg>
+                      Scroll Down
+                    </button>
+                  </div>
+                {% else %}
+                  <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .es-back-block {
+    margin-bottom: 1rem;
+  }
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #f7c14b 0%, #ff9f1a 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: .3px;
+    box-shadow: 0 6px 18px rgba(255, 159, 26, .35);
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+  .btn-back:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255, 159, 26, .45);
+    opacity: .95;
+  }
+  .btn-back:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 18px rgba(255, 159, 26, .35);
+  }
+  .btn-back svg {
+    color: #ffffff;
+  }
+  .product-detail .thumbnail-wrapper:hover img {
+    transform: scale(1.1);
+  }
+  .main-image-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  .thumb-img {
+    border: 2px solid transparent;
+  }
+  .thumb-img.active {
+    border-color: #007bff;
+  }
+  .thumbs-scroll {
+    max-height: 350px; /* 3 thumbnails * 110px + gaps */
+    overflow: hidden auto;
+    padding-right: 4px;
+  }
+  /* Enhanced product info styles */
+  .es-pd-title {
+    font-family:'Playfair Display', serif;
+    background: linear-gradient(90deg, #b8860b, #ffb84d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .es-pd-card {
+    background: linear-gradient(135deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 200, 120, .35);
+    box-shadow: 0 12px 30px rgba(184, 134, 11, .18);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .es-pd-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(184, 134, 11, .24);
+  }
+  .es-chip {
+    background: linear-gradient(90deg, #ffe6b3, #ffd480);
+    color: #6b4e16;
+    border: 1px solid rgba(184,134,11,.25);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: 600;
+  }
+  .es-chip-soft {
+    background: #f4f6f8;
+    color: #495057;
+    border-radius: 999px;
+    padding: 6px 12px;
+    border: 1px solid #e9ecef;
+  }
+  .es-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: .8rem;
+    color: #6b4e16;
+    font-weight: 700;
+  }
+  .es-divider {
+    flex: 1;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(184,134,11,.35), rgba(255,184,77,.15));
+    border-radius: 2px;
+  }
+  .es-price-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #28a745, #5cd37a);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.4rem;
+    box-shadow: 0 8px 18px rgba(40,167,69,.25);
+  }
+  
+  .comment-item {
+    transition: background-color 0.2s ease;
+  }
+  
+  .comment-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .rating svg {
+    margin-right: 2px;
+  }
+  
+  .card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+  }
+  
+  .comment-thumbnail {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+  
+  .comment-thumbnail:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+  
+  .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .comment-content {
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+  
+  .comment-header h6 {
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .rating svg {
+    margin-right: 2px;
+  }
+  
+  /* Scrolling Comments Styles */
+  .comments-scroll-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 1rem;
+    background: #f8f9fa;
+    position: relative;
+  }
+  
+  .comments-scroll-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .comments-scroll-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .comments-scroll-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .comments-scroll-container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+  }
+  
+  .comments-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+  
+  .comments-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .comments-controls button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .comments-controls button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  
+  .comments-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .comments-controls button:disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  #commentsCounter {
+    font-weight: 500;
+    color: #495057;
+  }
+</style>
+
+<script>
+  function showImage(src, element) {
+    document.getElementById('mainImage').src = src;
+    document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('active'));
+    element.classList.add('active');
+  }
+
+  function scrollThumbs(direction) {
+    const container = document.getElementById('thumbsScroll');
+    const step = 130; // thumbnail size + margin
+    container.scrollBy({ top: direction * step, behavior: 'smooth' });
+  }
+
+  function increaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    if (currentValue < 99) {
+      quantityInput.value = currentValue + 1;
+    }
+  }
+
+  function decreaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    if (currentValue > 1) {
+      quantityInput.value = currentValue - 1;
+    }
+  }
+  
+  function scrollComments(direction) {
+    const container = document.getElementById('commentsScrollContainer');
+    const scrollUpBtn = document.getElementById('scrollUpBtn');
+    const scrollDownBtn = document.getElementById('scrollDownBtn');
+    
+    if (!container) return;
+    
+    const scrollAmount = 200; // pixels to scroll
+    const currentScroll = container.scrollTop;
+    const maxScroll = container.scrollHeight - container.clientHeight;
+    
+    if (direction === 'up') {
+      container.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+    } else if (direction === 'down') {
+      container.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+    }
+    
+    // Update button states after a short delay
+    setTimeout(() => {
+      const newScroll = container.scrollTop;
+      scrollUpBtn.disabled = newScroll <= 0;
+      scrollDownBtn.disabled = newScroll >= maxScroll - 5; // 5px tolerance
+    }, 100);
+  }
+  
+  function updateScrollButtons() {
+    const container = document.getElementById('commentsScrollContainer');
+    const scrollUpBtn = document.getElementById('scrollUpBtn');
+    const scrollDownBtn = document.getElementById('scrollDownBtn');
+    
+    if (!container || !scrollUpBtn || !scrollDownBtn) return;
+    
+    const currentScroll = container.scrollTop;
+    const maxScroll = container.scrollHeight - container.clientHeight;
+    
+    scrollUpBtn.disabled = currentScroll <= 0;
+    scrollDownBtn.disabled = currentScroll >= maxScroll - 5;
+  }
+
+  // Add to cart functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize scroll buttons
+    updateScrollButtons();
+    
+    // Add scroll event listener to update button states
+    const commentsContainer = document.getElementById('commentsScrollContainer');
+    if (commentsContainer) {
+      commentsContainer.addEventListener('scroll', updateScrollButtons);
+    }
+    
+    // Initialize like states from server
+    const isLoggedIn = {{ user.is_authenticated|yesno:"true,false" }};
+    if (isLoggedIn) {
+      // Fetch user's liked products from server
+      fetch('{% url "shop:get_user_likes" %}', {
+        method: 'GET',
+        headers: {
+          'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const likedProducts = data.liked_products || [];
+        document.querySelectorAll('.like-btn').forEach(btn => {
+          const productId = btn.getAttribute('data-product-id');
+          if (likedProducts.includes(parseInt(productId))) {
+            btn.classList.add('liked');
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching likes:', error);
+      });
+    }
+    
+    // Handle like button clicks
+    document.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        if (!isLoggedIn) {
+          alert('Please log in to like products.');
+          window.location.href = '{% url "users:login" %}';
+          return;
+        }
+        
+        const productId = this.getAttribute('data-product-id');
+        
+        // Toggle like on server
+        fetch(`{% url "shop:toggle_like" 0 %}`.replace('0', productId), {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (data.is_liked) {
+              this.classList.add('liked');
+            } else {
+              this.classList.remove('liked');
+            }
+            console.log(data.message);
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error toggling like:', error);
+          alert('Error liking product. Please try again.');
+        });
+      });
+    });
+
+      // Add to cart handler
+      document.querySelectorAll('.btn-cart').forEach(btn=>{
+        btn.addEventListener('click', function(e){
+          e.preventDefault();
+          
+          // Check if user is logged in
+          const isLoggedIn = {{ user.is_authenticated|yesno:"true,false" }};
+          if (!isLoggedIn) {
+            alert('Please log in to add items to your cart.');
+            window.location.href = '{% url "users:login" %}';
+            return;
+          }
+          
+          const pid = String(this.getAttribute('data-product-id'));
+          const qtyInput = document.getElementById('quantity');
+          const qty = Math.max(1, parseInt(qtyInput && qtyInput.value || '1', 10));
+          
+          // Add to server-side cart
+          fetch(`{% url "shop:add_to_cart" 0 %}`.replace('0', pid), {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]')?.value || ''
+            },
+            body: JSON.stringify({
+              quantity: qty
+            })
+          })
+          .then(response => {
+            if (!response.ok) {
+              if (response.status === 401) {
+                alert('Please log in to add items to your cart.');
+                window.location.href = '{% url "users:login" %}';
+                return;
+              }
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data && data.success) {
+              // Visual feedback
+              this.classList.add('btn-success');
+              this.classList.remove('btn-warning');
+              this.innerHTML = '✓ Added to Cart';
+              setTimeout(()=>{
+                this.classList.remove('btn-success');
+                this.classList.add('btn-warning');
+                this.innerHTML = '🛒 Add to Cart';
+              }, 2000);
+              
+              // Update cart display
+              if (typeof renderCart === 'function') {
+                renderCart();
+              }
+              
+              // Show success message
+              console.log('Success:', data.message);
+            } else {
+              alert('Error adding to cart: ' + (data?.message || 'Unknown error'));
+            }
+          })
+          .catch(error => {
+            console.error('Error adding to cart:', error);
+            alert('Error adding to cart. Please try again.');
+          });
+      });
+    });
+  });
+</script>
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
