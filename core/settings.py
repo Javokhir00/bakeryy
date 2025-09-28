@@ -43,10 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shop',
     'users',
-    # 'social_django',
     'import_export',
     'django_resized',
-    # 'pagination',
 
 ]
 
@@ -58,7 +56,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'pagination.middleware.PaginationMiddleware',
 
 ]
 
@@ -142,17 +139,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR / 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-
-# AUTHENTICATION_BACKENDS = (
-#     'social_core.backends.google.GoogleOAuth2',
-#     # Add other backends as needed (e.g., Facebook, Twitter)
-#     'django.contrib.auth.backends.ModelBackend',
-# )
-
-
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'YOUR_GOOGLE_CLIENT_KEY'
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'YOUR_GOOGLE_CLIENT_SECRET'
-# SOCIAL_AUTH_GOOGLE_OAUTH2_REDIRECT_URI = 'http://127.0.0.1:8000/complete/google-oauth2/' # Adjust for your domain
 
 
 
