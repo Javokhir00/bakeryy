@@ -17,11 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 from core import settings
+
+
+def redirect_to_honeykitchen(request):
+    return redirect('shop:index')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', redirect_to_honeykitchen, name='root'),
     path('honeykitchen/', include('shop.urls', namespace = 'shop')),
     path('users/', include('users.urls', namespace = 'users')),
     # path('social-auth/', include('social_django.urls', namespace = 'social')),

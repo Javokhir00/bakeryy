@@ -1,8 +1,9 @@
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>HoneyKitchen</title>
+    <title>Honey Kitchen - Fresh Baked Goods</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,10 @@
     <meta name="author" content="">
     <meta name="keywords" content="">
     <meta name="description" content="">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="/media/honeykitchen_logo.jpg">
+    <link rel="apple-touch-icon" href="/media/honeykitchen_logo.jpg">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -149,20 +154,6 @@
                     </div>
                   </a>
                 </li>
-                <li><hr class="dropdown-divider"></li>
-                <li class="dropdown-header">
-                  <h6 class="mb-2">📱 Phone Orders</h6>
-                  <p class="small text-muted mb-2">Call us for immediate assistance:</p>
-                </li>
-                <li>
-                  <a class="dropdown-item d-flex align-items-center" href="tel:+998901234567">
-                    <img src="https://i.pinimg.com/564x/da/9d/94/da9d949eba17cb5f2c0de62be75fef1c.jpg" alt="Phone" width="24" height="24" class="me-3">
-                    <div>
-                      <div class="fw-bold">+998 90 123 45 67</div>
-                      <small class="text-muted">Available 9 AM - 8 PM</small>
-                    </div>
-                  </a>
-                </li>
               </ul>
             </div>
           </div>
@@ -170,14 +161,62 @@
       </div>
     </div>
 
-<!--    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">-->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar">
 
-<!--      <div class="offcanvas-header justify-content-between">-->
-<!--        <h4 class="fw-normal text-uppercase fs-6">Menu</h4>-->
-<!--        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>-->
-<!--      </div>-->
+      <div class="offcanvas-header justify-content-between">
+        <h4 class="fw-normal text-uppercase fs-6">Menu</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
 
-<!--      <div class="offcanvas-body">-->
+      <div class="offcanvas-body">
+        <ul class="navbar-nav list-unstyled d-flex flex-column gap-2 mb-0">
+          <li class="nav-item border-bottom pb-2">
+            <a href="{% url 'shop:index' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2 fw-bold">
+              <span style="font-size: 1.2rem;">🏠</span>
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="nav-item border-bottom pb-2">
+            <a href="#" class="nav-link d-flex align-items-center gap-3 text-dark p-2 fw-bold">
+              <span style="font-size: 1.2rem;">📍</span>
+              <span>Shop Location</span>
+            </a>
+          </li>
+          <li class="nav-item border-bottom pb-2">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-3 text-dark p-2 fw-bold" href="#" id="mobileContactDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span style="font-size: 1.2rem;">📞</span>
+              <span>Contact Us</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="mobileContactDropdown">
+              <li><a class="dropdown-item" href="mailto:maft0790@gmail.com"><img src="https://thumbs.dreamstime.com/b/%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C-201003176.jpg" alt="Email" width="20" height="20" class="me-2"> Email</a></li>
+              <li><a class="dropdown-item" href="https://t.me/Maftunaumarova03" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" alt="Telegram" width="20" height="20" class="me-2"> Telegram</a></li>
+              <li><a class="dropdown-item" href="https://www.instagram.com/bakingwithstephy" target="_blank"><img src="https://img.freepik.com/free-vector/instagram-vector-social-media-icon-7-june-2021-bangkok-thailand_53876-136728.jpg?semt=ais_incoming&w=740&q=80" alt="Instagram" width="20" height="20" class="me-2"> Instagram</a></li>
+            </ul>
+          </li>
+          {% if not user.is_authenticated %}
+          <li class="nav-item border-bottom pb-2">
+            <a href="{% url 'users:login' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2 fw-bold">
+              <svg width="24" height="24"><use xlink:href="#user"></use></svg>
+              <span>Login</span>
+            </a>
+          </li>
+          <li class="nav-item border-bottom pb-2">
+            <a href="{% url 'users:register' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2 fw-bold">
+              <svg width="24" height="24"><use xlink:href="#user"></use></svg>
+              <span>Register</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="nav-item border-bottom pb-2">
+            <a href="{% url 'users:logout_simple' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2 fw-bold">
+              <svg width="24" height="24"><use xlink:href="#user"></use></svg>
+              <span>Logout ({{ user.username }})</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
 
 <!--        <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">-->
 <!--          <li class="nav-item border-dashed active">-->
@@ -299,30 +338,29 @@
 <!--    </div>-->
 
     <header>
-      <div class="container-fluid">
-        <div class="row py-3 border-bottom">
+      <div class="container-fluid px-2 px-md-3">
+        <div class="row py-2 py-md-3 border-bottom align-items-center g-2">
 
-          <div class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
-            <div class="d-flex align-items-center my-3 my-sm-0">
-              <a href="{% url 'shop:index' %}">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDxNf4jHQkiI3vYUljTnS7K7KgzErlHdWsgQ&s"
-                       alt="logo"
-                       class="img-fluid"
-                       style="width: 150px; height: 90px;">
+          <div class="col-4 col-sm-3 col-lg-2 d-flex gap-1 gap-md-3 justify-content-start align-items-center">
+            <div class="d-flex align-items-center">
+              <a href="{% url 'shop:index' %}" class="d-flex align-items-center text-decoration-none logo-link">
+                  <img src="/media/honeykitchen_logo.jpg"
+                       alt="Honey Kitchen Logo"
+                       class="img-fluid site-logo"
+                       style="max-width: 150px; width: auto; height: auto; max-height: 120px; display: block; object-fit: contain;">
                 </a>
-
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            <button class="navbar-toggler d-lg-none border-0 bg-transparent p-1 ms-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
               aria-controls="offcanvasNavbar">
               <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#menu"></use></svg>
             </button>
           </div>
 
-          <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
-            <div class="search-bar row bg-light p-2 rounded-4">
-              <div class="col-md-4 d-none d-md-block">
+          <div class="col-8 col-sm-9 col-md-6 col-lg-4">
+            <div class="search-bar row bg-light p-1 p-md-2 rounded-4 g-0">
+              <div class="col-3 col-md-4 d-none d-md-block">
                 <form method="get" action="">
-                    <select onchange="if (this.value) window.location.href=this.value;">
+                    <select onchange="if (this.value) window.location.href=this.value;" class="form-select form-select-sm border-0 bg-transparent">
                         <option value="" disabled selected hidden>Categories</option>
                         {% for category in categories %}
                             <option value="{% url 'shop:products_by_category' category.slug %}">
@@ -330,79 +368,70 @@
                             </option>
                         {% endfor %}
                     </select>
-
                 </form>
-
               </div>
-              <div class="col-11 col-md-7">
-                  <form id="search-form" class="text-center" action="{% url 'shop:index' %}" method="get">
-                      <input type="text" name="q" class="form-control border-0 bg-transparent" placeholder="Search" value="{{ request.GET.q }}">
+              <div class="col-9 col-md-7">
+                  <form id="search-form" action="{% url 'shop:index' %}" method="get">
+                      <input type="text" name="q" class="form-control form-control-sm border-0 bg-transparent" placeholder="Search" value="{{ request.GET.q }}">
                   </form>
               </div>
-
-              <div class="col-1">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
+              <div class="col-1 d-flex align-items-center justify-content-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/></svg>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-4">
-            <ul class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
+          <div class="col-lg-4 d-none d-lg-flex">
+            <ul class="navbar-nav list-unstyled d-flex flex-row gap-2 gap-md-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
               <li class="nav-item active">
                 <a href="{% url 'shop:index' %}" class="nav-link">Home</a>
               </li>
-
               <li class="nav-item active">
                 <a href="#" class="nav-link">Shop Location</a>
               </li>
-
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="contactDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Contact Us
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="contactDropdown">
                     <li><a class="dropdown-item" href="mailto:maft0790@gmail.com"><img src="https://thumbs.dreamstime.com/b/%D0%BF%D0%B5%D1%87%D0%B0%D1%82%D1%8C-201003176.jpg" alt="Email" width="20" height="20" class="me-2"> Email</a></li>
-<!--                    <li><a class="dropdown-item" href="tel:930833850"><img src="https://i.pinimg.com/564x/da/9d/94/da9d949eba17cb5f2c0de62be75fef1c.jpg" alt="Email" width="20" height="20" class="me-2"> Phone</a></li>-->
                     <li><a class="dropdown-item" href="https://t.me/Maftunaumarova03" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" alt="Email" width="20" height="20" class="me-2"> Telegram</a></li>
                     <li><a class="dropdown-item" href="https://www.instagram.com/bakingwithstephy" target="_blank"><img src="https://img.freepik.com/free-vector/instagram-vector-social-media-icon-7-june-2021-bangkok-thailand_53876-136728.jpg?semt=ais_incoming&w=740&q=80" alt="Email" width="20" height="20" class="me-2"> Instagram</a></li>
                   </ul>
                 </li>
-
-
             </ul>
           </div>
 
-          <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
-            <ul class="d-flex justify-content-end list-unstyled m-0">
+          <div class="col-12 col-md-6 col-lg-2 d-flex gap-1 gap-md-2 gap-lg-3 align-items-center justify-content-end justify-content-md-end mt-2 mt-md-0">
+            <ul class="d-flex justify-content-end list-unstyled m-0 align-items-center gap-1 gap-md-2 flex-wrap header-actions">
               {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg width="24" height="24" class="me-1"><use xlink:href="#user"></use></svg>
-                    {{ user.username }}
+                  <a class="nav-link dropdown-toggle d-flex align-items-center p-1" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <svg width="18" height="18" class="me-1"><use xlink:href="#user"></use></svg>
+                    <span class="d-none d-md-inline">{{ user.username }}</span>
                   </a>
-                  <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                    
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="{% url 'users:logout_simple' %}">Logout</a></li>
                   </ul>
                 </li>
               {% else %}
                 <li>
-                  <a href="{% url 'users:login' %}" class="btn btn-outline-primary btn-sm me-2">Login</a>
+                  <a href="{% url 'users:login' %}" class="btn btn-outline-primary btn-sm">Login</a>
                 </li>
                 <li>
                   <a href="{% url 'users:register' %}" class="btn btn-primary btn-sm">Register</a>
                 </li>
               {% endif %}
               <li>
-                <a href="#" class="p-2 mx-1">
-                  <svg width="24" height="24"><use xlink:href="#wishlist"></use></svg>
+                <a href="#" class="p-1 p-md-2">
+                  <svg width="18" height="18"><use xlink:href="#wishlist"></use></svg>
                 </a>
               </li>
-              <li>
-                <a href="#" class="p-2 mx-1 position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                  <svg width="24" height="24"><use xlink:href="#shopping-bag"></use></svg>
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="headerCartCount">0</span>
+              <li class="cart-icon-wrapper">
+                <a href="#" class="p-1 p-md-2 position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                  <svg width="18" height="18"><use xlink:href="#shopping-bag"></use></svg>
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem; padding: 0.15em 0.4em;" id="headerCartCount">0</span>
                 </a>
               </li>
             </ul>
@@ -424,46 +453,45 @@
             {% block list %}
             {% endblock %}
 
-    <footer class="bg-dark text-light pt-5">
+    <footer class="bg-dark text-light pt-4 pt-md-5 pb-3">
   <div class="container">
     <div class="row gy-4">
       <!-- About HoneyKitchen -->
-      <div class="col-md-4">
-        <h5 class="fw-bold">About HoneyKitchen</h5>
-        <p class="small">
+      <div class="col-12 col-md-4">
+        <h5 class="fw-bold mb-3">About HoneyKitchen</h5>
+        <p class="small mb-0">
           HoneyKitchen by Maftuna is an online bakery where every treat is crafted with love.
           From golden breads to delightful cakes, we bring homemade sweetness to your table.
         </p>
       </div>
 
       <!-- Our Values -->
-      <div class="col-md-4">
-        <h5 class="fw-bold">Our Values</h5>
-        <p class="small">
+      <div class="col-12 col-md-4">
+        <h5 class="fw-bold mb-3">Our Values</h5>
+        <p class="small mb-0">
           We believe in natural ingredients, fresh baking, and warm hospitality.
           Each order is prepared with care to make your moments special.
         </p>
       </div>
 
       <!-- Contact Info -->
-      <div class="col-md-4">
-        <h5 class="fw-bold">Get in Touch</h5>
-        <ul class="list-unstyled small">
-          <li><i class="bi bi-geo-alt"></i> New York, USA</li>
+      <div class="col-12 col-md-4">
+        <h5 class="fw-bold mb-3">Get in Touch</h5>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-2"><i class="bi bi-geo-alt"></i> New York, USA</li>
           <li><i class="bi bi-envelope"></i> maft0790@gmail.com</li>
-          <li><i class="bi bi-telephone"></i> +998 90 123 45 67</li>
         </ul>
       </div>
     </div>
 
-    <hr class="border-secondary mt-4">
+    <hr class="border-secondary mt-4 mb-3">
 
     <!-- Footer Bottom -->
     <div class="row align-items-center">
-      <div class="col-md-6">
+      <div class="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
         <p class="mb-0 small">© 2025 HoneyKitchen by Maftuna. All rights reserved.</p>
       </div>
-      <div class="col-md-6 text-md-end small">
+      <div class="col-12 col-md-6 text-center text-md-end small">
         <p class="mb-0">Made with ❤️ by HoneyKitchen</p>
       </div>
     </div>
@@ -485,6 +513,23 @@
         border-radius: 12px;
         padding: 0.5rem 0;
         min-width: 100%;
+        z-index: 1050;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      
+      /* Ensure dropdowns are fully visible */
+      .dropdown-menu-end {
+        right: 0 !important;
+        left: auto !important;
+      }
+      
+      /* Fix user dropdown visibility */
+      #userDropdown + .dropdown-menu {
+        min-width: 150px;
+        position: absolute;
+        right: 0;
+        left: auto;
       }
       
       .dropdown-item {
@@ -548,6 +593,150 @@
       
       #contactDropdown:focus {
         box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+      }
+      
+      /* Logo Responsive Styles */
+      .site-logo {
+        transition: all 0.3s ease;
+      }
+      
+      /* Cart button positioning for PC view */
+      @media (min-width: 992px) {
+        header .header-actions > li.cart-icon-wrapper {
+          transform: translateX(-0.75rem) !important;
+        }
+      }
+      
+      /* Mobile Responsive Styles */
+      @media (max-width: 991.98px) {
+        header .row > div[class*="col"] {
+          margin-bottom: 0.5rem;
+        }
+      }
+      
+      @media (max-width: 767.98px) {
+        .site-logo {
+          max-width: 90px !important;
+          max-height: 70px !important;
+        }
+        
+        .logo-link {
+          max-width: 90px;
+        }
+        
+        header .container-fluid {
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+        
+        header .row {
+          margin-left: 0;
+          margin-right: 0;
+        }
+        
+        .search-bar {
+          margin-top: 0;
+        }
+        
+        .search-bar input {
+          font-size: 0.875rem;
+          padding: 0.25rem 0.5rem;
+        }
+        
+        .offcanvas {
+          max-width: 85%;
+        }
+        
+        .offcanvas-body {
+          padding: 1rem;
+        }
+        
+        .dropdown-menu {
+          max-width: 100%;
+          font-size: 0.9rem;
+          max-height: 80vh;
+          overflow-y: auto;
+          z-index: 1050;
+        }
+        
+        .dropdown-item img {
+          width: 18px;
+          height: 18px;
+        }
+        
+        /* Fix dropdown positioning to ensure full visibility */
+        .dropdown-menu-end {
+          right: 0 !important;
+          left: auto !important;
+        }
+        
+        /* Ensure user dropdown is fully visible */
+        #userDropdown + .dropdown-menu {
+          min-width: 150px;
+          position: absolute;
+          right: 0;
+          left: auto;
+        }
+        
+        /* Fix header dropdowns positioning */
+        header .dropdown-menu {
+          position: absolute;
+          transform: translateX(0);
+        }
+        
+        header .dropdown-menu-end {
+          right: 0;
+          left: auto;
+        }
+        
+        .btn-sm {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.875rem;
+        }
+        
+        /* Ensure login/register buttons are visible on mobile */
+        header .btn {
+          font-size: 0.75rem;
+          padding: 0.3rem 0.6rem;
+        }
+      }
+      
+      @media (max-width: 575.98px) {
+        .site-logo {
+          max-width: 75px !important;
+          max-height: 55px !important;
+        }
+        
+        .logo-link {
+          max-width: 75px;
+        }
+        
+        .offcanvas {
+          max-width: 90%;
+        }
+        
+        .navbar-toggler {
+          padding: 0.25rem 0.5rem;
+        }
+        
+        .search-bar {
+          padding: 0.5rem !important;
+        }
+        
+        .search-bar input {
+          font-size: 0.8rem;
+        }
+      }
+      
+      @media (max-width: 400px) {
+        .site-logo {
+          max-width: 65px !important;
+          max-height: 45px !important;
+        }
+        
+        .logo-link {
+          max-width: 65px;
+        }
       }
     </style>
 
